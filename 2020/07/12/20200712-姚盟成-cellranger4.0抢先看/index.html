@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>cellranger4.0抢先看 | anno-sc</title>
+  <meta name="keywords" content=" cellranger ">
+  <meta name="description" content="cellranger4.0抢先看 | anno-sc">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="VarTrix是一款10XGenomics官方的软件用于从10XGenomics单细胞数据中提取单细胞变异信息。  VarTrix 并不执行variant calling 需要输入先前定义的variant calls VarTrix可用于评估样品中单细胞的异质性  VarTrix 流程图 githubhttps:&#x2F;&#x2F;github.com&#x2F;10XGenomics&#x2F;vartrix 下载安装VarTri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vartrix | Single-Cell Genotyping Tool">
+<meta property="og:url" content="https://anno-sc.com/2020/11/30/vartrix/index.html">
+<meta property="og:site_name" content="anno-sc">
+<meta property="og:description" content="VarTrix是一款10XGenomics官方的软件用于从10XGenomics单细胞数据中提取单细胞变异信息。  VarTrix 并不执行variant calling 需要输入先前定义的variant calls VarTrix可用于评估样品中单细胞的异质性  VarTrix 流程图 githubhttps:&#x2F;&#x2F;github.com&#x2F;10XGenomics&#x2F;vartrix 下载安装VarTri">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/anno-sc/blog_source/raw/master/figure/VarTrix/vartrix_1.png">
+<meta property="og:image" content="https://gitee.com/anno-sc/blog_source/raw/master/figure/VarTrix/vartrix_2.png">
+<meta property="og:image" content="https://gitee.com/anno-sc/blog_source/raw/master/figure/VarTrix/vartrix_3.png">
+<meta property="article:published_time" content="2020-11-30T08:28:00.000Z">
+<meta property="article:modified_time" content="2020-11-30T09:07:34.660Z">
+<meta property="article:author" content="anno-sc">
+<meta property="article:tag" content="singlecell">
+<meta property="article:tag" content="SNP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/anno-sc/blog_source/raw/master/figure/VarTrix/vartrix_1.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>anno-sc</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="github" href="https://github.com/anno-sc" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active" data-rel="全部文章">全部文章<small>(7)</small></div></li>
+    
+        
+            
+            <li><div data-rel="QC">QC<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="plot">plot<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="SNP">SNP<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="VDJ">VDJ<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="免疫细胞">免疫细胞<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="生产力工具">生产力工具<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="7">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://seqyuan.com">seqyuan</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" />
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>cellranger</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>DC</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>NK</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Rmarkdown</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>singlecell</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>SNP</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>T细胞</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>VDJ</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>VlnPlot</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>双细胞</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 SNP "
+           href="/2020/11/30/vartrix/"
+           data-tag="singlecell,SNP"
+           data-author="ahworld07" >
+            <span class="post-title" title="vartrix | Single-Cell Genotyping Tool">vartrix | Single-Cell Genotyping Tool</span>
+            <span class="post-date" title="2020-11-30 16:28:00">2020/11/30</span>
+        </a>
+        
+        <a  class="全部文章 VDJ "
+           href="/2020/09/27/T%E7%BB%86%E8%83%9EVDJ%E7%9A%84TCR_dist%E5%88%86%E6%9E%90%E7%BB%93%E6%9E%9C%E8%AF%B4%E6%98%8E/"
+           data-tag="T细胞,VDJ"
+           data-author="尧小飞" >
+            <span class="post-title" title="T细胞VDJ的TCR_dist分析结果说明">T细胞VDJ的TCR_dist分析结果说明</span>
+            <span class="post-date" title="2020-09-27 14:54:00">2020/09/27</span>
+        </a>
+        
+        <a  class="全部文章 免疫细胞 "
+           href="/2020/09/25/NK_DC_lineage/"
+           data-tag="DC,NK"
+           data-author="Spartanzhao" >
+            <span class="post-title" title="DC和NK细胞的lineage及marker基因">DC和NK细胞的lineage及marker基因</span>
+            <span class="post-date" title="2020-09-25 16:00:00">2020/09/25</span>
+        </a>
+        
+        <a  class="全部文章 QC "
+           href="/2020/09/24/doublets/"
+           data-tag="singlecell,双细胞"
+           data-author="ahworld07" >
+            <span class="post-title" title="单细胞质控-双细胞鉴定软件">单细胞质控-双细胞鉴定软件</span>
+            <span class="post-date" title="2020-09-24 16:51:00">2020/09/24</span>
+        </a>
+        
+        <a  class="全部文章 plot "
+           href="/2020/08/04/R%E5%87%BD%E6%95%B0%E5%AE%9E%E7%8E%B0%E5%8D%95%E7%BB%86StackedVlnPlot/"
+           data-tag="VlnPlot"
+           data-author="ahworld07" >
+            <span class="post-title" title="R函数实现单细胞StackedVlnPlot">R函数实现单细胞StackedVlnPlot</span>
+            <span class="post-date" title="2020-08-04 13:38:00">2020/08/04</span>
+        </a>
+        
+        <a  class="全部文章 QC "
+           href="/2020/07/12/20200712-%E5%A7%9A%E7%9B%9F%E6%88%90-cellranger4.0%E6%8A%A2%E5%85%88%E7%9C%8B/"
+           data-tag="cellranger"
+           data-author="尧小飞" >
+            <span class="post-title" title="cellranger4.0抢先看">cellranger4.0抢先看</span>
+            <span class="post-date" title="2020-07-12 14:36:00">2020/07/12</span>
+        </a>
+        
+        <a  class="全部文章 生产力工具 "
+           href="/2020/07/01/20200701-%E5%A7%9A%E7%9B%9F%E6%88%90-Rmarkdown%E7%94%9F%E6%88%90%E7%BD%91%E9%A1%B5%E7%89%88%E7%BB%93%E9%A2%98%E6%8A%A5%E5%91%8A%E5%AE%8C%E7%BE%8E%E6%96%B9%E6%A1%88/"
+           data-tag="Rmarkdown"
+           data-author="尧小飞" >
+            <span class="post-title" title="Rmarkdown生成网页版结题报告完美方案">Rmarkdown生成网页版结题报告完美方案</span>
+            <span class="post-date" title="2020-07-01 14:54:00">2020/07/01</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-20200712-姚盟成-cellranger4.0抢先看" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">cellranger4.0抢先看</h1>
+    
+    <div class="article-meta">
+        
+        
+        <span class="author"><a>尧小飞</a></span>
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="QC">QC</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">cellranger</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2020-11-30 17:07:34'>2020-07-12 14:36</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="toc-text">1. 背景介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-cellranger4-0%E6%9B%B4%E6%96%B0%E4%BB%8B%E7%BB%8D"><span class="toc-text">2. cellranger4.0更新介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-cellranger4-0-%E6%B5%8B%E8%AF%95"><span class="toc-text">3. cellranger4.0 测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="toc-text">4. 总结</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-背景介绍"><a href="#1-背景介绍" class="headerlink" title="1. 背景介绍"></a>1. 背景介绍</h1><p>做单细胞转录组的都知道，目前为止<a target="_blank" rel="noopener" href="https://www.10xgenomics.com/">10xGenomics公司</a>的单细胞转录组解决方案是单细胞领域中的绝对领导者，预计基本上占单细胞转录组的市场份额80%以上（或者更高），因此10xGenomics公司的任何风吹草动都会对单细胞研究的领域产生十分重要的影响。</p>
+<p><img src="https://gitee.com/yao_xiao_fei2/figupload/raw/master/cellranger4.0%E6%8A%A2%E5%85%88%E7%9C%8B/20200712214446.png"></p>
+<p>2020年7月初，10xGenomics公司推出了<a target="_blank" rel="noopener" href="https://www.10xgenomics.com/products/targeted-gene-expression/">靶向基因的解决方案</a>，号称在同等测序深度的条件下，其成本降低了90%以上，或者说起通量增加10倍，这对于老师所关注的领域的研究十分重要。今天主要介绍的是cellranger4.0，为什么要所靶向基因呢？主要是这里推出了新产品靶向基因，肯定得有分析软件，而靶向基因使用的软件正好是cellranger4.0，cellranger4.0正好进行了更新，增加了新的的功能和提高了效率。</p>
+<p><img src="https://gitee.com/yao_xiao_fei2/figupload/raw/master/cellranger4.0%E6%8A%A2%E5%85%88%E7%9C%8B/20200712214949.png"></p>
+<h1 id="2-cellranger4-0更新介绍"><a href="#2-cellranger4-0更新介绍" class="headerlink" title="2. cellranger4.0更新介绍"></a>2. cellranger4.0更新介绍</h1><p>cellranger4.0更新日期是7月7日，我查看了一下<a target="_blank" rel="noopener" href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/release-notes">Release notes for Cell Ranger 4.0 (07/07/2020)</a>，一共一千多字，介绍了很多更新的内容和注意事项，大家可以自己去仔细的看看，我自己大概总结了一下，主要有以下几个方面：</p>
+<blockquote>
+<ol>
+<li>Targeted Gene Expression analysis。</li>
+<li>Recommended reference packages for human and mouse have been updated from version 3.0.0 to 2020A。</li>
+<li>Trimming for alignment。</li>
+<li>BAM file changes。</li>
+<li><strong>count and vdj run approximately two to four times faster than in Cell Ranger 3.1, depending on the sequencing data, and reduces disk I/O by half</strong>。</li>
+<li>Recommended VDJ reference packages for human and mouse have been updated from。</li>
+</ol>
+</blockquote>
+<p>当然还有别的一些内容，个人觉得上面的节点重要，就不介绍了。其实我们关注的重点在于，由于靶向基因解决方案还没有正式推出，这里不介绍，<strong>总结到两个方面：提高了比对效率和提高了比对率。其中比对效率提高了差不多2-4倍，比对率大概能提高1.5%左右</strong>。这两方面对于我们目前单细胞转录组分析来说，其帮助是十分巨大的，特别是公司，提高效率2-4倍，以后就可以减少机时，节约成本，缩短交付周期，而且同时其比对率还有相应的提高，这真是太实用了。上面是软件自我介绍，具体如何，下面将对其进行测试。</p>
+<h1 id="3-cellranger4-0-测试"><a href="#3-cellranger4-0-测试" class="headerlink" title="3. cellranger4.0 测试"></a>3. cellranger4.0 测试</h1><p>这里使用了一个人的测试数据，分别进行了三组测试：cellranger-3.1.0（之前的参考基因组）和cellranger-4.0.0（新的的参考基因组和之前的参考基因组）。测试命令如下：</p>
+<pre><code class="shell">#A
+cellranger-3.1.0/cellranger count --id=  --fastqs= --sample=  --transcriptome=cellranger-GRCh38-3.0.0 --localmem=40 --localcores=8
+#B
+cellranger-4.0.0/bin/cellranger count --id=  --fastqs= --sample=  --transcriptome=cellranger-GRCh38-3.0.0 --localmem=40 --localcores=8
+#C
+cellranger4.0/cellranger-4.0.0/bin/cellranger count --id=  --fastqs=  --sample=  --transcriptome= refdata-gex-GRCh38-2020-A/ --localmem=40 --localcores=8</code></pre>
+<table>
+<thead>
+<tr>
+<th align="center">条件</th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">软件版本</td>
+<td align="center">cellranger-3.1.0</td>
+<td align="center">cellranger-4.0.0</td>
+<td align="center">cellranger-4.0.0</td>
+</tr>
+<tr>
+<td align="center">参考基因组</td>
+<td align="center">GRCh38-3.0.0</td>
+<td align="center">GRCh38-3.0.0</td>
+<td align="center">GRCh38-2020-A</td>
+</tr>
+<tr>
+<td align="center">参数</td>
+<td align="center">–localmem=40  –localcores=8</td>
+<td align="center">–localmem=40  –localcores=8</td>
+<td align="center">–localmem=40  –localcores=8</td>
+</tr>
+<tr>
+<td align="center">开始时间</td>
+<td align="center">2020-04-13 10:16:52</td>
+<td align="center">2020-07-10 17:00:50</td>
+<td align="center">2020-07-10 17:16:33</td>
+</tr>
+<tr>
+<td align="center">结束时间</td>
+<td align="center">2020-04-14 06:08:20</td>
+<td align="center">2020-07-11 04:30:57</td>
+<td align="center">2020-07-11 00:27:44</td>
+</tr>
+<tr>
+<td align="center">耗时</td>
+<td align="center">20h</td>
+<td align="center">11.5h</td>
+<td align="center">7h</td>
+</tr>
+<tr>
+<td align="center">最大内存</td>
+<td align="center">30.499G</td>
+<td align="center">35.270G</td>
+<td align="center">35.281G</td>
+</tr>
+<tr>
+<td align="center">IO</td>
+<td align="center">14497.833</td>
+<td align="center">5555.653</td>
+<td align="center">5592.511</td>
+</tr>
+<tr>
+<td align="center">计算节点</td>
+<td align="center">c0803.cloud</td>
+<td align="center">c0002.local</td>
+<td align="center">c0018.local</td>
+</tr>
+<tr>
+<td align="center">预测细胞数</td>
+<td align="center">1071</td>
+<td align="center">1079</td>
+<td align="center">1086</td>
+</tr>
+<tr>
+<td align="center">基因中位数</td>
+<td align="center">351</td>
+<td align="center">354</td>
+<td align="center">361</td>
+</tr>
+<tr>
+<td align="center">比对率</td>
+<td align="center">0.926</td>
+<td align="center">0.913</td>
+<td align="center">0.913</td>
+</tr>
+<tr>
+<td align="center">转录本比对率</td>
+<td align="center">0.439</td>
+<td align="center">0.444</td>
+<td align="center">0.454</td>
+</tr>
+<tr>
+<td align="center">总基因检出数目</td>
+<td align="center">19316</td>
+<td align="center">19420</td>
+<td align="center">20989</td>
+</tr>
+</tbody></table>
+<p>这里三个比较组，cellranger-3.1.0之前已经运行过一次，因此这次不再运行，从上表格可以看出，测试结果基本上达到了cellranger4.0的Release notes的结果，如果按照相同的参考基因组，都适用GRCh38-3.0.0参考基因组的话，cellranger-3.1.0耗时为20h左右，cellranger-4.0.0为11.5h左右，差不多两倍，如果换成GRCh38-2020-A参考基因组，耗时只有7h左右，差不多是3倍左右，因此比对效率基本上达到要求。cellranger4.0的另外一项是比对率提高，上述表格表明，其细胞的基因检出中位值有一定的提高，特别是用新的参考基因组以后，提高了10左右，比对率基本上没有什么变化，但是有效转录本比对率有一定的提高，在新的参考基因组条件下，比对率差不多提高了1.5%左右，因此基本上达到要求。</p>
+<p>另外需要注意的是，这次测试是用的qsub进行投递，因此计算节点不是一个节点，这可能会造成效率有些微波动，不过对结果影响不会太大；cellranger4.0虽然速度提高了，但是内存也增加了，差不多增加了17%左右，这可能是代价，用新的参考基因组以后，其基因检出总数增加了1400左右。</p>
+<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h1><p>整体来说，这次cellranger4.0更新的作用还是挺大的，特别是对于公司来说，其速度差不多增加了2倍左右，这大大的提高了效率；另外一方面，其比对率的确有所增加，差不多1.5%左右，这是在提高效率的同时，没有牺牲准确性，相反还提高了结果的准确性；不过需要注意的是，cellranger4.0的最大内存增加了，这可能就是提高效率的代价，不过17%的内存增加换来效率的翻倍，这是值得的。</p>
+<p>新版的cellranger4.0发布的同时，其参考基因组也有所有更新，而且对有一定的影响，因此建议更新软件的同时，也要更新参考基因组。</p>
+<p>上面主要介绍了cellranger count的命令，也就是主要是cellranger对转录组的分析，对于VDJ分析，其测试结果基本上类似，我用了小数据量测试，基本上也是节省1倍的时间。</p>
+<p>2020年7月12日</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论 </span>
+    </div>
+</article>
+
+
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '9fea4bfda0aa0990cae3',
+            clientSecret: 'a49f95594367f1707d1a9de1062630c5b16d7c86',
+            repo: 'anno-sc.github.io',
+            owner: 'seqyuan',
+            admin: ['seqyuan'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020 anno-sc
+</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
